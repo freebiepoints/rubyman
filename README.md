@@ -24,6 +24,7 @@ NOTES
 1. By default, Rubyman uses the word dictionary located in /usr/share/dict/words to generate its word list.
 You can check if this file exists with:
 > ls /usr/share/dict/words
+
 If it does not, you can install a dictionary with the following command:
 > sudo apt install wamerican
 
