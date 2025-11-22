@@ -1,68 +1,68 @@
 def draw_hangman(attempts_left)
   hangman_stages = [
     # 0 attempts left (dead)
-    "
+    '
      +---+
      |   |
      O   |
     /|\  |
     / \  |
          |
-    =========\n",
+    =========\n',
     # 1 attempt left
-    "
+    '
      +---+
      |   |
      O   |
     /|\  |
     /    |
          |
-    =========\n",
+    =========\n',
     # 2 attempts left
-    "
+    '
      +---+
      |   |
      O   |
     /|\  |
          |
          |
-    =========\n",
+    =========\n',
     # 3 attempts left
-    "
+    '
      +---+
      |   |
      O   |
     /|   |
          |
          |
-    =========\n",
+    =========\n',
     # 4 attempts left
-    "
+    '
      +---+
      |   |
      O   |
      |   |
          |
          |
-    =========\n",
+    =========\n',
     # 5 attempts left
-    "
+    '
      +---+
      |   |
      O   |
          |
          |
          |
-    =========\n",
+    =========\n',
     # 6 attempts left (start)
-    "
+    '
      +---+
      |   |
          |
          |
          |
          |
-    =========\n"
+    =========\n'
   ]
   
   puts hangman_stages[attempts_left]
@@ -72,22 +72,27 @@ def clear_screen
   system('cls') || system('clear')
 end
 
+# Get local dictionary for word list
+DICTIONARY_FILE = "/usr/share/dict/words"
+
 def play_rubyman
   # Setup
-  # word list
-  DICTIONARY_FILE = "/usr/share/dict/words"
 
   # custom word list loading
-  if ARGV.length > 0
-    CUSTOM_DICTIONARY_FILE = ARGV[0]
-  end
+  custom_dictionary = ARGV.length > 0 ? ARGV[0] : nil
+  words = []
 
-  if File.exist?(CUSTOM_DICTIONARY_FILE)
-    words = File.readlines(CUSTOM_DICTIONARY_FILE).map(&:chomp).select { |word| word.length >= 4 && word.match?(/\A[a-zA-Z]+\z/) }.map(&:downcase)
+  if custom_dictionary && File.exist?(custom_dictionary_file)
+    words = File.readlines(custom_dictionary).map(&:chomp).select { |word| word.length >= 4 && word.match?(/\A[a-zA-Z]+\z/) }.map(&:downcase)
+    puts "Custom dictionary loaded."
   elsif File.exist?(DICTIONARY_FILE)
     words = File.readlines(DICTIONARY_FILE).map(&:chomp).select { |word| word.length >= 4 && word.match?(/\A[a-zA-Z]+\z/) }.map(&:downcase)
-  else # fallback word list
-    words = ["ruby", "oklahoma", "programming", "method", "class", "polytechnic", "array", "variable", "function", "object", "paradigm", "inheritance", "encapsulation", "abstraction", "algorithm", "university"]
+  end
+
+  # fallback word list
+  if words.empty?
+	puts "Fallback wordlist being used"
+	words = ["ruby", "oklahoma", "programming", "method", "class", "polytechnic", "array", "variable", "function", "object", "paradigm", "inheritance", "encapsulation", "abstraction", "algorithm", "university"]
   end
 
   # choose a random word
